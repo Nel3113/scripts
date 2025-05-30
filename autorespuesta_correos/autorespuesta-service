@@ -1,0 +1,14 @@
+[Unit]
+Description=Procesa el log de correo para autoresponder en determinados horarios
+After=network.target syslog.target
+
+[Service]
+User=root
+WorkingDirectory=/usr/local/bin/
+ExecStart=/bin/bash -c "/usr/bin/tail -n 0 -F /var/log/mail.log | /usr/bin/python3 /usr/local/bin/autorespuesta_correos/auto_respuesta.py"
+Restart=on-failure
+StandardOutput=append:/var/log/autorespuesta-mails.log.out
+StandardError=append:/var/log/autorespuesta-mails.log.err
+
+[Install]
+WantedBy=multi-user.target
